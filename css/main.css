@@ -41,7 +41,6 @@ footer {
     margin-bottom: 0.5rem;
 }
 
-
 .task .task-text {
     flex: 1;
 }
@@ -55,7 +54,7 @@ footer {
 }
 
 /* Agrega los estilos para el contenedor de tareas */
-.task-container {
+.contenedor-tareas {
     max-width: 600px;
     margin: 0 auto;
 }
@@ -63,7 +62,7 @@ footer {
 /* Estilos específicos para modo oscuro */
 .dark {
     background-color: #333;
-    color: #000000;
+    color: #fff;
 }
 
 .dark header, .dark footer {
