@@ -1,122 +1,110 @@
-// Selecciona los elementos relevantes del DOM
-const taskForm = document.getElementById('task-form');
-const taskInput = document.getElementById('task-input');
-const taskList = document.getElementById('task-list');
+const formularioTarea = document.getElementById('task-form');
+const inputTarea = document.getElementById('task-input');
+const listaTareas = document.getElementById('task-list');
 
-// Función para crear un nuevo elemento de tarea
-function createTaskElement(taskText) {
-    // Limita la longitud de la tarea si es demasiado larga
-    if (taskText.length > 50) {
-        taskText = taskText.substring(0, 47) + '...';
+function crearElementoTarea(textoTarea) {
+    // Limitar la longitud de la tarea si es demasiado larga
+    if (textoTarea.length > 50) {
+        textoTarea = textoTarea.substring(0, 47) + '...';
     }
 
-    // Crea los elementos de la tarea
-    const taskItem = document.createElement('li');
-    taskItem.classList.add('task', 'bg-white', 'rounded', 'shadow', 'p-4', 'mb-2', 'flex', 'justify-between', 'items-center');
+    const elementoTarea = document.createElement('li');
+    elementoTarea.classList.add('tarea', 'bg-white', 'rounded', 'shadow', 'p-4', 'mb-2', 'flex', 'justify-between', 'items-center');
 
-    const taskTextElement = document.createElement('span');
-    taskTextElement.classList.add('task-text');
-    taskTextElement.textContent = taskText;
+    const textoElementoTarea = document.createElement('span');
+    textoElementoTarea.classList.add('texto-tarea');
+    textoElementoTarea.textContent = textoTarea;
 
-    const taskActions = document.createElement('div');
-    taskActions.classList.add('task-actions');
+    const accionesTarea = document.createElement('div');
+    accionesTarea.classList.add('acciones-tarea');
 
-    const completeButton = document.createElement('button');
-    completeButton.classList.add('bg-green-500', 'hover:bg-green-600', 'text-white', 'px-2', 'py-1', 'rounded');
-    completeButton.innerHTML = '<i class="bi bi-check"></i>';
+    const botonCompletar = document.createElement('button');
+    botonCompletar.classList.add('bg-green-500', 'hover:bg-green-600', 'text-white', 'px-2', 'py-1', 'rounded');
+    botonCompletar.innerHTML = '<i class="bi bi-check"></i>';
 
-    const deleteButton = document.createElement('button');
-    deleteButton.classList.add('bg-red-500', 'hover:bg-red-600', 'text-white', 'px-2', 'py-1', 'rounded');
-    deleteButton.innerHTML = '<i class="bi bi-trash"></i>';
+    const botonEliminar = document.createElement('button');
+    botonEliminar.classList.add('bg-red-500', 'hover:bg-red-600', 'text-white', 'px-2', 'py-1', 'rounded');
+    botonEliminar.innerHTML = '<i class="bi bi-trash"></i>';
 
-    // Agrega los elementos al elemento de la tarea
-    taskActions.appendChild(completeButton);
-    taskActions.appendChild(deleteButton);
-    taskItem.appendChild(taskTextElement);
-    taskItem.appendChild(taskActions);
+    accionesTarea.appendChild(botonCompletar);
+    accionesTarea.appendChild(botonEliminar);
+    elementoTarea.appendChild(textoElementoTarea);
+    elementoTarea.appendChild(accionesTarea);
     
-    // Asociar evento de completar o eliminar tarea a toda la tarea
-    taskItem.addEventListener('click', (e) => {
-        const target = e.target.closest('button');
-        if (target) {
-            handleTaskEvent(taskItem, target);
+    elementoTarea.addEventListener('click', (e) => {
+        const objetivo = e.target.closest('button');
+        if (objetivo) {
+            manejarEventoTarea(elementoTarea, objetivo);
         }
     });
 
-    return taskItem;
+    return elementoTarea;
 }
 
-// Función para manejar los eventos de la tarea (completar o eliminar)
-function handleTaskEvent(taskItem, target) {
-    const taskTextElement = taskItem.querySelector('.task-text');
-    if (target.classList.contains('bg-green-500')) {
+function manejarEventoTarea(elementoTarea, objetivo) {
+    const textoElementoTarea = elementoTarea.querySelector('.texto-tarea');
+    if (objetivo.classList.contains('bg-green-500')) {
         // Completar tarea
-        taskItem.classList.toggle('completed');
-        if (taskItem.classList.contains('completed')) {
-            taskTextElement.style.textDecoration = 'line-through';
-            showToastMessage("¡Tarea completada!");
+        elementoTarea.classList.toggle('completada');
+        if (elementoTarea.classList.contains('completada')) {
+            textoElementoTarea.style.textDecoration = 'line-through';
+            mostrarMensajeToast("¡Tarea completada!");
         } else {
-            taskTextElement.style.textDecoration = 'none';
+            textoElementoTarea.style.textDecoration = 'none';
         }
-        saveTasksToLocalStorage(); // Guardar las tareas en localStorage después de completar una tarea
-    } else if (target.classList.contains('bg-red-500')) {
+        guardarTareasEnLocalStorage();
+    } else if (objetivo.classList.contains('bg-red-500')) {
         // Eliminar tarea
-        taskItem.remove();
-        saveTasksToLocalStorage(); // Guardar las tareas en localStorage después de eliminar una tarea
-        showToastMessage("¡Tarea eliminada!");
+        elementoTarea.remove();
+        guardarTareasEnLocalStorage(); // Guardar las tareas en localStorage después de eliminar una tarea
+        mostrarMensajeToast("¡Tarea eliminada!");
     }
 }
 
-// Función para mostrar un mensaje de Toastify personalizado
-function showToastMessage(message) {
+function mostrarMensajeToast(mensaje) {
     Toastify({
-        text: message,
+        text: mensaje,
         duration: 3000,
-        gravity: "bottom", // `top` or `bottom`
-        position: "right", // `left`, `center` or `right`
+        gravity: "bottom", 
+        position: "right", 
         style: {
             background: "linear-gradient(to right, #00b09b, #96c93d)",
         }
     }).showToast();
 }
 
-// Función para guardar las tareas en localStorage
-function saveTasksToLocalStorage() {
-    const tasks = taskList.innerHTML;
-    localStorage.setItem('tasks', tasks);
+function guardarTareasEnLocalStorage() {
+    const tareas = listaTareas.innerHTML;
+    localStorage.setItem('tareas', tareas);
 }
 
-// Función para cargar las tareas desde localStorage al cargar la página
-function loadTasksFromLocalStorage() {
-    const tasks = localStorage.getItem('tasks');
-    if (tasks) {
-        taskList.innerHTML = tasks;
-        // Agregar eventos a los nuevos elementos de tarea cargados desde localStorage
-        const taskItems = taskList.querySelectorAll('.task');
-        taskItems.forEach(taskItem => {
-            const buttons = taskItem.querySelectorAll('button');
-            buttons.forEach(button => {
-                button.addEventListener('click', () => {
-                    handleTaskEvent(taskItem, button);
+function cargarTareasDesdeLocalStorage() {
+    const tareas = localStorage.getItem('tareas');
+    if (tareas) {
+        listaTareas.innerHTML = tareas;
+        const elementosTarea = listaTareas.querySelectorAll('.tarea');
+        elementosTarea.forEach(elementoTarea => {
+            const botones = elementoTarea.querySelectorAll('button');
+            botones.forEach(boton => {
+                boton.addEventListener('click', () => {
+                    manejarEventoTarea(elementoTarea, boton);
                 });
             });
         });
     }
 }
 
-// Función para manejar la presentación del formulario de tareas
-taskForm.addEventListener('submit', (e) => {
+formularioTarea.addEventListener('submit', (e) => {
     e.preventDefault();
-    const taskText = taskInput.value.trim();
-    if (taskText !== '') {
-        const taskElement = createTaskElement(taskText);
-        taskList.appendChild(taskElement);
-        taskInput.value = '';
+    const textoTarea = inputTarea.value.trim();
+    if (textoTarea !== '') {
+        const elementoTarea = crearElementoTarea(textoTarea);
+        listaTareas.appendChild(elementoTarea);
+        inputTarea.value = '';
 
-        saveTasksToLocalStorage(); // Guardar las tareas en localStorage después de agregar una nueva tarea
-        showToastMessage("¡Tarea agregada!");
+        guardarTareasEnLocalStorage();
+        mostrarMensajeToast("¡Tarea agregada!");
     }
 });
 
-// Cargar las tareas almacenadas en localStorage al cargar la página
-loadTasksFromLocalStorage();
+cargarTareasDesdeLocalStorage();

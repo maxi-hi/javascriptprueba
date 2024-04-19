@@ -4,30 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tareas</title>
-    <!-- Agregar Tailwind CSS -->
+    <title>Lista de Tareas-MaximoPerret-ALUMNO</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Agregar Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <!-- Agregar archivo de estilos personalizado -->
     <link rel="stylesheet" href="./css/main.css">
 </head>
 
 <body class="flex flex-col min-h-screen">
     <header class="bg-gray-900 text-white py-4 flex justify-between items-center">
         <div class="flex items-center">
-            <!-- Logo e título -->
-            <img src="./img/lagarto-icon2.webp" alt="lagarto-icon" class="h-8 mr-2">
-            <h1 class="text-2xl">Projectos</h1>
+            <!-- Logo y título -->
+            <img src="./img/lagarto-icon2.webp" alt="Icono de lagarto" class="h-8 mr-2">
+            <h1 class="text-2xl">Proyectos</h1>
         </div>
         <ul class="flex space-x-4">
             <!-- Lista de enlaces -->
             <li>
-                <a href="./html/clima.html" class="text-white">App de Clima</a>
+                <a href="./html/clima.html" class="text-white">Aplicación del Clima</a>
             </li>
             <li>
-                <a href="#" class="text-white">Lista de Tareas</a>
+                <a href="index.html" class="text-white">Lista de Tareas</a>
             </li>
             <li>
                 <button id="dark-mode-toggle" class="text-xl text-gray-300 hover:text-white focus:outline-none">
@@ -39,14 +36,13 @@
     
     <main>
         <div class="container mx-auto p-4">
-            <div class="task-container bg-gray-100 dark:bg-gray-800 rounded-lg p-6">
+            <div class="contenedor-tareas bg-gray-100 dark:bg-gray-800 rounded-lg p-6">
                 <h2 class="text-2xl mb-4 text-center text-black">Lista de Tareas</h2>
                 <form id="task-form" class="mb-4 flex">
                     <input type="text" id="task-input" class="w-full border p-2 mr-2 text-black" placeholder="Agregar nueva tarea..." maxlength="50" required>
                     <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Agregar</button>
                 </form>
-                <ul id="task-list" class="list-disc">
-                    <!-- Aquí se mostrarán las tareas -->
+                <ul id="task-list" class="lista-disc">
                 </ul>
             </div>
         </div>
